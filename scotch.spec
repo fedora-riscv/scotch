@@ -1,7 +1,7 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	5.1.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
@@ -119,6 +119,9 @@ rm -rf %{buildroot}
 %{_libdir}/lib*scotch*.a
 
 %changelog
+* Sun Dec 27 2009 Deji Akingunola <dakingun@gmail.com> - 5.1.7-3
+- Rebuild for mpich2 soname bump.
+
 * Wed Nov 04 2009 Deji Akingunola <dakingun@gmail.com> - 5.1.7-2
 - Fix the Source url
 
