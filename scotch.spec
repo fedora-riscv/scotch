@@ -1,13 +1,13 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
-Version:	5.1.7
-Release:	2%{?dist}
+Version:	5.1.8
+Release:	1%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
-Source0:	http://gforge.inria.fr/frs/download.php/23390/%{name}_%{version}.tar.gz
+Source0:	http://gforge.inria.fr/frs/download.php/26854/%{name}_%{version}.tar.gz
 Source1:	scotch-Makefile.inc.in
-BuildRequires:	flex bison mpich2-devel zlib-devel
+BuildRequires:	flex bison mpich2-devel zlib-devel bzip2-devel lzma-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -31,7 +31,7 @@ Requires:	%{name}-devel = %{version}-%{release}
 This package contains libscotch static libraries.
 
 %prep
-%setup -q -n scotch_5.1
+%setup -q -n scotch_%{version}
 sed s/@RPMFLAGS@/'%{optflags} -fPIC'/ < %SOURCE1 > src/Makefile.inc
 
 %build
@@ -43,10 +43,11 @@ gcc -shared -Wl,-soname=libscotcherrexit.so.0 -o	\
 	../lib/libscotcherrexit.so.0.0	libscotch/library_error_exit.o
 rm -f libscotch/library_error*.o
 gcc -shared -Wl,-soname=libscotch.so.0 -o ../lib/libscotch.so.0.0	\
-	libscotch/*.o ../lib/libscotcherr.so.0.0 -lpthread -lgfortran -lz -lrt
+	libscotch/*.o ../lib/libscotcherr.so.0.0 -lpthread -lgfortran -lz -lbz2 -llzmadec -lrt
 gcc -shared -Wl,-soname=libscotchmetis.so.0 -o ../lib/libscotchmetis.so.0.0\
-	libscotchmetis/*.o ../lib/libscotch.so.0.0 ../lib/libscotcherr.so.0.0 -lz -lm -lrt
+	libscotchmetis/*.o ../lib/libscotch.so.0.0 ../lib/libscotcherr.so.0.0
 
+%{_mpich2_load}
 make %{?_smp_mflags} ptscotch
 mpicc -shared -Wl,-soname=libptscotcherr.so.0 -o ../lib/libptscotcherr.so.0.0\
 	libscotch/library_error.o
@@ -54,10 +55,11 @@ mpicc -shared -Wl,-soname=libptscotcherrexit.so.0 -o	\
 	../lib/libptscotcherrexit.so.0.0  libscotch/library_error_exit.o
 rm -f libscotch/library_error*.o
 mpicc -shared -Wl,-soname=libptscotch.so.0 -o ../lib/libptscotch.so.0.0	\
-	libscotch/*.o ../lib/libptscotcherr.so.0.0 -lgfortran -lz 
+	libscotch/*.o ../lib/libptscotcherr.so.0.0 -lgfortran -lz -lbz2 -llzmadec
 mpicc -shared -Wl,-soname=libptscotchparmetis.so.0 -o	\
 	../lib/libptscotchparmetis.so.0.0 libscotchmetis/*.o	\
-	../lib/libptscotch.so.0.0 ../lib/libptscotcherr.so.0.0 -lz -lm -lrt
+	../lib/libptscotch.so.0.0 ../lib/libptscotcherr.so.0.0
+%{_mpich2_unload}
 
 %install
 rm -rf %{buildroot}
@@ -119,6 +121,9 @@ rm -rf %{buildroot}
 %{_libdir}/lib*scotch*.a
 
 %changelog
+* Tue Apr 27 2010 Deji Akingunola <dakingun@gmail.com> - 5.1.8-1
+- Update to 5.1.8
+
 * Wed Nov 04 2009 Deji Akingunola <dakingun@gmail.com> - 5.1.7-2
 - Fix the Source url
 
