@@ -1,6 +1,6 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
-Version:	5.1.8
+Version:	5.1.10b
 Release:	1%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
@@ -21,14 +21,6 @@ Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains development libraries for scotch.
-
-%package static
-Summary:	Development libraries for scotch
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-This package contains libscotch static libraries.
 
 %prep
 %setup -q -n scotch_%{version}
@@ -66,14 +58,18 @@ rm -rf %{buildroot}
 pushd src/
 make install prefix=%{buildroot}%{_prefix} libdir=%{buildroot}%{_libdir}
 popd
+cp -r include/*metis.h %{buildroot}%{_includedir}/
+
 pushd lib
 	for static_libs in lib*scotch*.a ; do
 		libs=`basename $static_libs .a`
 		ln -s $libs.so.0.0 $libs.so.0
 		ln -s $libs.so.0.0 $libs.so
+                rm -f $static_libs
 	done
 	cp -dp lib*scotch*.so* %{buildroot}%{_libdir}/
 popd
+rm -f %{buildroot}%{_libdir}/*.a
 
 rm -f %{buildroot}%{_bindir}/*
 rm -f %{buildroot}%{_mandir}/man1/*
@@ -115,12 +111,16 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_libdir}/lib*scotch*.so
 %{_includedir}/*scotch*.h
-
-%files static
-%defattr(-,root,root,-)
-%{_libdir}/lib*scotch*.a
+%{_includedir}/*metis.h
 
 %changelog
+* Tue Oct 19 2010 Deji Akingunola <dakingun@gmail.com> - 5.1.9-10b
+- Update to 5.1.10b
+
+* Thu Aug 12 2010 Deji Akingunola <dakingun@gmail.com> - 5.1.9-1
+- Update to 5.1.9
+- No more static builds
+
 * Tue Apr 27 2010 Deji Akingunola <dakingun@gmail.com> - 5.1.8-1
 - Update to 5.1.8
 
