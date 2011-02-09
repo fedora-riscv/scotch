@@ -1,7 +1,7 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	5.1.10b
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
@@ -114,6 +114,9 @@ rm -rf %{buildroot}
 %{_includedir}/*metis.h
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 5.1.10b-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Tue Oct 19 2010 Deji Akingunola <dakingun@gmail.com> - 5.1.9-10b
 - Update to 5.1.10b
 
