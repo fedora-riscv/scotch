@@ -1,11 +1,11 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
-Version:	5.1.11
-Release:	1%{?dist}
+Version:	5.1.12
+Release:	1.b%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
-Source0:	http://gforge.inria.fr/frs/download.php/26854/%{name}_%{version}.tar.gz
+Source0:	http://gforge.inria.fr/frs/download.php/26854/%{name}_%{version}b.tar.gz
 Source1:	scotch-Makefile.inc.in
 BuildRequires:	flex bison mpich2-devel zlib-devel bzip2-devel lzma-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -114,6 +114,9 @@ rm -rf %{buildroot}
 %{_includedir}/*metis.h
 
 %changelog
+* Sat Nov 17 2012 Deji Akingunola <dakingun@gmail.com> - 5.1.12-1.b
+- Update to 5.1.12b
+
 * Tue Mar 29 2011 Deji Akingunola <dakingun@gmail.com> - 5.1.11-1
 - Update to 5.1.11
 
