@@ -1,14 +1,13 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
-Version:	5.1.12
-Release:	2.b%{?dist}
+Version:	6.0.0
+Release:	1%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
-Source0:	http://gforge.inria.fr/frs/download.php/26854/%{name}_%{version}b.tar.gz
+Source0:	https://gforge.inria.fr/frs/download.php/31831/%{name}_%{version}.tar.gz
 Source1:	scotch-Makefile.inc.in
 BuildRequires:	flex bison mpich2-devel zlib-devel bzip2-devel lzma-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -56,9 +55,11 @@ mpicc -shared -Wl,-soname=libptscotchparmetis.so.0 -o	\
 %install
 rm -rf %{buildroot}
 pushd src/
-make install prefix=%{buildroot}%{_prefix} libdir=%{buildroot}%{_libdir}
+make install prefix=%{buildroot}%{_prefix} libdir=%{buildroot}%{_libdir} \
+             includedir=%{buildroot}%{_includedir}/%{name}-%{_arch}/
+
 popd
-cp -r include/*metis.h %{buildroot}%{_includedir}/
+cp -pr include/*metis.h %{buildroot}%{_includedir}/%{name}-%{_arch}/
 
 pushd lib
 	for static_libs in lib*scotch*.a ; do
@@ -93,9 +94,6 @@ mv -f CeCILL-C_V1-en.txt.conv CeCILL-C_V1-en.txt
 mv -f CeCILL-C_V1-fr.txt.conv CeCILL-C_V1-fr.txt
 popd
 
-%clean
-rm -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
@@ -110,10 +108,15 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/lib*scotch*.so
-%{_includedir}/*scotch*.h
-%{_includedir}/*metis.h
+%{_includedir}/%{name}-%{_arch}/*scotch*.h
+%{_includedir}/%{name}-%{_arch}/*metis.h
 
 %changelog
+* Thu Jun 13 2013 Deji Akingunola <dakingun@gmail.com> - 6.0.0-1
+- Update to 6.0.0
+- Configured to run with 2 threads (for now)
+- Install the headers in arch-dependent sub-directories
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 5.1.12-2.b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
