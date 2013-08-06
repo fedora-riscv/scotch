@@ -1,13 +1,13 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	6.0.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
 Source0:	https://gforge.inria.fr/frs/download.php/31831/%{name}_%{version}.tar.gz
 Source1:	scotch-Makefile.inc.in
-BuildRequires:	flex bison mpich2-devel zlib-devel bzip2-devel lzma-devel
+BuildRequires:	flex bison mpich-devel zlib-devel bzip2-devel lzma-devel
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -38,7 +38,7 @@ gcc -shared -Wl,-soname=libscotch.so.0 -o ../lib/libscotch.so.0.0	\
 gcc -shared -Wl,-soname=libscotchmetis.so.0 -o ../lib/libscotchmetis.so.0.0\
 	libscotchmetis/*.o ../lib/libscotch.so.0.0 ../lib/libscotcherr.so.0.0
 
-%{_mpich2_load}
+%{_mpich_load}
 make %{?_smp_mflags} ptscotch
 mpicc -shared -Wl,-soname=libptscotcherr.so.0 -o ../lib/libptscotcherr.so.0.0\
 	libscotch/library_error.o
@@ -50,7 +50,7 @@ mpicc -shared -Wl,-soname=libptscotch.so.0 -o ../lib/libptscotch.so.0.0	\
 mpicc -shared -Wl,-soname=libptscotchparmetis.so.0 -o	\
 	../lib/libptscotchparmetis.so.0.0 libscotchmetis/*.o	\
 	../lib/libptscotch.so.0.0 ../lib/libptscotcherr.so.0.0
-%{_mpich2_unload}
+%{_mpich_unload}
 
 %install
 rm -rf %{buildroot}
@@ -112,6 +112,12 @@ popd
 %{_includedir}/%{name}-%{_arch}/*metis.h
 
 %changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Sun Jul 21 2013 Deji Akingunola <dakingun@gmail.com> - 6.0.0-2
+- Rename mpich2 sub-packages to mpich and rebuild for mpich-3.0
+
 * Thu Jun 13 2013 Deji Akingunola <dakingun@gmail.com> - 6.0.0-1
 - Update to 6.0.0
 - Configured to run with 2 threads (for now)
