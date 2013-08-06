@@ -1,7 +1,7 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	6.0.0
-Release:	3%{?dist}
+Release:	2%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
@@ -112,9 +112,6 @@ popd
 %{_includedir}/%{name}-%{_arch}/*metis.h
 
 %changelog
-* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
 * Sun Jul 21 2013 Deji Akingunola <dakingun@gmail.com> - 6.0.0-2
 - Rename mpich2 sub-packages to mpich and rebuild for mpich-3.0
 
