@@ -1,7 +1,7 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	6.0.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
@@ -288,6 +288,9 @@ popd
 %doc scotch_%{version}/README.txt scotch_%{version}/doc/*
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Thu Feb 27 2014 Deji Akingunola <dakingun@gmail.com> - 6.0.0-5
 - Slightly modified Erik Zeek spec re-write (See 2012-10-08 below)
 - Rename mpich and openmpi subpackages as ptscotch-(mpich/openmpi) (Laurence Mcglashan)
