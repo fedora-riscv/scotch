@@ -1,7 +1,7 @@
 Summary:	Graph, mesh and hypergraph partitioning library
 Name:		scotch
 Version:	6.0.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	CeCILL-C
 Group:		Development/Libraries
 URL:		http://www.labri.fr/perso/pelegrin/scotch/
@@ -288,6 +288,9 @@ popd
 %doc scotch_%{version}/README.txt scotch_%{version}/doc/*
 
 %changelog
+* Sat Jul 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.0-7
+- Fix under-linked libraries (#1098680)
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

@@ -4,7 +4,6 @@ OBJ		= .o
 
 MAKE		= make
 AR		= gcc
-ARFLAGS		= -shared -Wl,-soname=$@.0 -o
 CAT		= cat
 CCS		= gcc
 CCP     	= mpicc
@@ -15,6 +14,7 @@ CFLAGS		= @RPMFLAGS@ \
 		-Drestrict=__restrict -DIDXSIZE64
 CLIBFLAGS	= -shared -fPIC
 LDFLAGS		= -lz -lbz2 -llzmadec -lm -lrt  -lpthread
+ARFLAGS		= -shared -Wl,-soname=$@.0 $(LDFLAGS) -o
 CP		= cp -av
 LEX		= flex
 LN		= ln
