@@ -3,12 +3,12 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.0
-Release:       9%{?dist}
+Version:       6.0.1
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           http://www.labri.fr/perso/pelegrin/scotch/
-Source0:       http://gforge.inria.fr/frs/download.php/file/31831/%{name}_%{version}.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
 BuildRequires: flex
@@ -19,7 +19,7 @@ BuildRequires: lzma-devel
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
-sparse matrix ordering. The parallel scotch librariries are packaged in the
+sparse matrix ordering. The parallel scotch libraries are packaged in the
 ptscotch sub-packages.
 
 %package devel
@@ -229,6 +229,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Mon Sep 22 2014 Sandro Mani <manisandro@gmail.com> - 6.0.1-1
+- Update to 6.0.1
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
