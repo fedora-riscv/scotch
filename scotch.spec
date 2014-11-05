@@ -1,15 +1,27 @@
-Summary:	Graph, mesh and hypergraph partitioning library
-Name:		scotch
-Version:	6.0.1
-Release:	1%{?dist}
-License:	CeCILL-C
-Group:		Development/Libraries
-URL:		http://www.labri.fr/perso/pelegrin/scotch/
-Source0:	https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
-Source1:	scotch-Makefile.static.inc.in
-Source2:	scotch-Makefile.shared.inc.in
-BuildRequires:	flex bison zlib-devel bzip2-devel lzma-devel
-Requires:	%{name}-doc = %{version}-%{release}
+%global openmpidir %{_builddir}/ptscotch-openmpi-%{version}-%{release}
+%global mpichdir %{_builddir}/ptscotch-mpich-%{version}-%{release}
+
+# Shared library versioning:
+# Increment if interface is changed in an incompatible way
+%global so_maj 0
+# Increment if interface is extended
+%global so_min 1
+
+Name:          scotch
+Summary:       Graph, mesh and hypergraph partitioning library
+Version:       6.0.3
+Release:       1%{?dist}
+
+License:       CeCILL-C
+URL:           https://gforge.inria.fr/projects/scotch/
+Source0:       https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
+Source1:       scotch-Makefile.shared.inc.in
+
+BuildRequires: flex
+BuildRequires: bison
+BuildRequires: zlib-devel
+BuildRequires: bzip2-devel
+BuildRequires: lzma-devel
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -17,224 +29,162 @@ sparse matrix ordering. The parallel scotch libraries are packaged in the
 ptscotch sub-packages.
 
 %package devel
-Summary:	Development libraries for scotch
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:       Development libraries for scotch
+Requires:      %{name}%{?_isa} = %{version}-%{release}
+Obsoletes:     %{name}-static < 6.0.0-8
 
 %description devel
 This package contains development libraries for scotch.
 
-%package static
-Summary:	Development libraries for scotch
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-This package contains libscotch static libraries.
 
 %package doc
-Summary:	Documentations and example for scotch and ptscotch
-Group:		Documentation
-BuildArch:	noarch
+Summary:       Documentations and example for scotch and ptscotch
+BuildArch:     noarch
 
 %description doc
 Contains documentations and example for scotch and ptscotch
 
+###############################################################################
+
 %package -n ptscotch-mpich
-Summary:	PT-Scotch libraries compiled against mpich
-Group:		Development/Libraries
-BuildRequires:	mpich-devel
-Requires:	environment-modules mpich
-Requires:	%{name}-doc = %{version}-%{release}
+Summary:       PT-Scotch libraries compiled against mpich
+BuildRequires: mpich-devel
+Requires:      mpich
 
 %description -n ptscotch-mpich
 Scotch is a software package for graph and mesh/hypergraph partitioning and
 sparse matrix ordering. This sub-package provides parallelized scotch libraries
-compiled with mpich
+compiled with mpich.
+
 
 %package -n ptscotch-mpich-devel
-Summary:	Development libraries for PT-Scotch (mpich)
-Group:		Development/Libraries
-Requires:	pt%{name}-mpich = %{version}-%{release}
+Summary:       Development libraries for PT-Scotch (mpich)
+Requires:      pt%{name}-mpich%{?_isa} = %{version}-%{release}
+Obsoletes:     ptscotch-mpich-static < 6.0.0-8
 
 %description -n ptscotch-mpich-devel
 This package contains development libraries for PT-Scotch, compiled against
 mpich.
 
-%package -n ptscotch-mpich-static
-Summary:	Static PT-Scotch libraries compiled against mpich
-Group:		Development/Libraries
-Requires:	pt%{name}-mpich-devel = %{version}-%{release}
 
-%description -n ptscotch-mpich-static
-This package contains static libraries for Scotch, compiled against mpich.
+###############################################################################
 
 %package -n ptscotch-openmpi
-Summary:	PT-Scotch libraries compiled against openmpi
-Group:		Development/Libraries
-BuildRequires:	openmpi-devel
-Requires:	environment-modules openmpi
-Requires:	%{name}-doc = %{version}-%{release}
+Summary:       PT-Scotch libraries compiled against openmpi
+BuildRequires: openmpi-devel
+Requires:      openmpi
 
 %description -n ptscotch-openmpi
 Scotch is a software package for graph and mesh/hypergraph partitioning and
 sparse matrix ordering. This sub-package provides parallelized scotch libraries
-compiled with openmpi
+compiled with openmpi.
+
 
 %package -n ptscotch-openmpi-devel
-Summary:	Development libraries for PT-Scotch (openmpi)
-Group:		Development/Libraries
-Requires:	pt%{name}-openmpi = %{version}-%{release}
+Summary:       Development libraries for PT-Scotch (openmpi)
+Requires:      pt%{name}-openmpi%{?_isa} = %{version}-%{release}
+Obsoletes:     ptscotch-openmpi-static < 6.0.0-8
 
 %description -n ptscotch-openmpi-devel
 This package contains development libraries for PT-Scotch, compiled against openmpi.
 
-%package -n ptscotch-openmpi-static
-Summary:	Static PT-Scotch libraries compiled against openmpi
-Group:		Development/Libraries
-Requires:	pt%{name}-openmpi-devel = %{version}-%{release}
-
-%description -n ptscotch-openmpi-static
-This package contains static libraries for Scotch, compiled against openmpi.
+###############################################################################
 
 %prep
-%setup -c -q -n scotch_%{version}
-pushd scotch_%{version}
-sed s/@RPMFLAGS@/'%{optflags} -fPIC'/ < %SOURCE1 > src/Makefile.static.inc
-sed s/@RPMFLAGS@/'%{optflags} -fPIC'/ < %SOURCE2 > src/Makefile.shared.inc
-popd
+%setup -q -n scotch_%{version}
 
-cp -ap scotch_%{version} scotch_%{version}_mpich
-cp -ap scotch_%{version} scotch_%{version}_openmpi
-
-%build
-module purge
-
-%define dosingle() \
-rm -f Makefile.inc; \
-ln -s Makefile.static.inc Makefile.inc; \
-make %{?_smp_mflags}; \
-rm -f Makefile.inc; \
-ln -s Makefile.shared.inc Makefile.inc; \
-make %{?_smp_mflags}
-
-%define dobuild() \
-rm -f Makefile.inc; \
-ln -s Makefile.static.inc Makefile.inc; \
-make %{?_smp_mflags} ptscotch; \
-rm Makefile.inc; \
-ln -s Makefile.shared.inc Makefile.inc; \
-make %{?_smp_mflags} ptscotch
-
-pushd scotch_%{version}/src/
-%dosingle
-popd
-
-pushd scotch_%{version}_mpich/src/
-%{_mpich_load}
-%dobuild
-%{_mpich_unload}
-popd
-
-module purge
-
-pushd scotch_%{version}_openmpi/src/
-%{_openmpi_load}
-%dobuild
-%{_openmpi_unload}
-popd
-
-%install
-rm -rf %{buildroot}
-module purge
-
-%define doinst() \
-pushd src/; \
-rm -f Makefile.inc; \
-ln -s Makefile.static.inc Makefile.inc; \
-make %{?_smp_mflags} install %*; \
-rm -f Makefile.inc; \
-ln -s Makefile.shared.inc Makefile.inc; \
-make %{?_smp_mflags} install %*; \
-popd \
-pushd $libdir; \
-for lib in *.so; do \
-	mv $lib $lib.0.0; \
-	ln -s $lib.0.0 $lib; \
-	ln -s $lib.0.0 $lib.0; \
-done; \
-popd
-
-pushd scotch_%{version}/
-export libdir=%{buildroot}%{_libdir}
-%doinst prefix=%{buildroot}%{_prefix} libdir=%{buildroot}%{_libdir}
-
-pushd %{buildroot}%{_bindir}/
-for prog in *; do
-	mv $prog scotch_$prog
-done
-popd
-pushd %{buildroot}%{_mandir}/man1/
-rm -f d*
-for prog in *; do
-	mv $prog scotch_$prog
-done
-popd
-pushd %{buildroot}%{_bindir}
-	rm -f scotch_gpart && ln -s ./scotch_gmap scotch_gpart
-popd
+cp -a %{SOURCE1} src/Makefile.inc
 
 # Convert the license files to utf8
-pushd doc
-iconv -f iso8859-1 -t utf-8 < CeCILL-C_V1-en.txt > CeCILL-C_V1-en.txt.conv
-iconv -f iso8859-1 -t utf-8 < CeCILL-C_V1-fr.txt > CeCILL-C_V1-fr.txt.conv
-mv -f CeCILL-C_V1-en.txt.conv CeCILL-C_V1-en.txt
-mv -f CeCILL-C_V1-fr.txt.conv CeCILL-C_V1-fr.txt
+for file in doc/CeCILL-C_V1-en.txt doc/CeCILL-C_V1-fr.txt; do
+    iconv -f iso8859-1 -t utf-8 $file > $file.conv && mv -f $file.conv $file
+done
+
+cp -a . %{openmpidir}
+cp -a . %{mpichdir}
+
+
+%build
+pushd src/
+make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
-popd
-
-pushd scotch_%{version}_mpich
 %{_mpich_load}
-export libdir=%{buildroot}/${MPI_LIB}
-%doinst prefix=%{buildroot}/${MPI_HOME} libdir=%{buildroot}/${MPI_LIB} includedir=%{buildroot}/${MPI_INCLUDE} mandir=%{buildroot}/${MPI_MAN} bindir=%{buildroot}/${MPI_BIN}
-
-pushd bin
-for prog in *; do
-	mv $prog %{buildroot}/${MPI_BIN}/scotch_${prog}
-done
-popd
-
-pushd %{buildroot}/${MPI_MAN}/man1/
-rm -f {a,g,m}*
-for man in *; do
-	mv ${man} scotch_${man}
-done
+pushd %{mpichdir}/src/
+make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
-popd
 
-module purge
-
-pushd scotch_%{version}_openmpi
 %{_openmpi_load}
-export libdir=%{buildroot}/${MPI_LIB}
-%doinst prefix=%{buildroot}/${MPI_HOME} libdir=%{buildroot}/${MPI_LIB} includedir=%{buildroot}/${MPI_INCLUDE} mandir=%{buildroot}/${MPI_MAN} bindir=%{buildroot}/${MPI_BIN}
-
-pushd bin
-for prog in *; do
-	mv $prog %{buildroot}/${MPI_BIN}/scotch_${prog}
-done
-popd
-
-pushd %{buildroot}/${MPI_MAN}/man1/
-rm -f {a,g,m}*
-for man in *; do
-	mv ${man} scotch_${man}
-done
+pushd %{openmpidir}/src/
+make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
+
+
+%install
+%define doinstall() \
+make install prefix=%{buildroot}${MPI_HOME} libdir=%{buildroot}${MPI_LIB} includedir=%{buildroot}${MPI_INCLUDE} mandir=%{buildroot}${MPI_MAN} bindir=%{buildroot}${MPI_BIN} \
+# Fix debuginfo packages not finding sources (See libscotch/Makefile) \
+ln -s parser_ll.c libscotch/lex.yy.c \
+ln -s parser_yy.c libscotch/y.tab.c \
+ln -s parser_ly.h libscotch/y.tab.h \
+\
+pushd %{buildroot}${MPI_LIB}; \
+for lib in *.so; do \
+    chmod 755 $lib \
+    mv $lib $lib.%{so_maj}.%{so_min} && ln -s $lib.%{so_maj}.%{so_min} $lib && ln -s $lib.%{so_maj}.%{so_min} $lib.%{so_maj} \
+done \
+popd \
+\
+pushd %{buildroot}${MPI_BIN} \
+for prog in *; do \
+    mv $prog scotch_${prog} \
+    chmod 755 scotch_$prog \
+done \
+popd \
+\
+pushd %{buildroot}${MPI_MAN}/man1/ \
+for man in *; do \
+    mv ${man} scotch_${man} \
+done \
+# Cleanup man pages (some pages are only relevant for ptscotch packages, and vice versa) \
+for man in *; do \
+  if [ ! -f %{buildroot}${MPI_BIN}/${man/.1/} ]; then \
+    rm -f $man \
+  fi \
+done \
 popd
+
+###############################################################################
+
+export MPI_HOME=%{_prefix}
+export MPI_LIB=%{_libdir}
+export MPI_INCLUDE=%{_includedir}
+export MPI_MAN=%{_mandir}
+export MPI_BIN=%{_bindir}
+pushd src
+%doinstall
+popd
+
+###############################################################################
+
+%{_mpich_load}
+pushd %{mpichdir}/src
+%doinstall
+popd
+%{_mpich_unload}
+
+###############################################################################
+
+%{_openmpi_load}
+pushd %{openmpidir}/src
+%doinstall
+popd
+%{_openmpi_unload}
+
+###############################################################################
+
 
 %post -p /sbin/ldconfig
 
@@ -248,7 +198,9 @@ popd
 
 %postun -n ptscotch-openmpi -p /sbin/ldconfig
 
+
 %files
+%doc doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
 %{_libdir}/libscotch*.so.*
 %{_mandir}/man1/*
@@ -257,42 +209,43 @@ popd
 %{_libdir}/libscotch*.so
 %{_includedir}/*scotch*.h
 
-%files static
-%{_libdir}/libscotch*.a
-
 %files -n ptscotch-mpich
+%doc doc/CeCILL-C_V1-en.txt
 %{_libdir}/mpich/lib/lib*.so.*
 %{_libdir}/mpich/bin/*
 %{_mandir}/mpich/*
-
-%files -n ptscotch-openmpi
-%{_libdir}/openmpi/lib/lib*.so.*
-%{_libdir}/openmpi/bin/*
-%{_mandir}/openmpi*/*
 
 %files -n ptscotch-mpich-devel
 %{_includedir}/mpich*/*scotch*.h
 %{_libdir}/mpich/lib/lib*.so
 
+%files -n ptscotch-openmpi
+%doc doc/CeCILL-C_V1-en.txt
+%{_libdir}/openmpi/lib/lib*.so.*
+%{_libdir}/openmpi/bin/*
+%{_mandir}/openmpi*/*
+
 %files -n ptscotch-openmpi-devel
 %{_includedir}/openmpi*/*scotch*.h
 %{_libdir}/openmpi/lib/lib*.so
 
-%files -n ptscotch-mpich-static
-%{_libdir}/mpich/lib/lib*.a
-
-%files -n ptscotch-openmpi-static
-%{_libdir}/openmpi/lib/lib*.a
-
 %files doc
-%doc scotch_%{version}/README.txt scotch_%{version}/doc/*
+%doc doc/CeCILL-C_V1-en.txt
+%doc doc/*.pdf
+%doc doc/scotch_example.f
 
 %changelog
-* Wed Sep 24 2014 Sandro Mani <manisandro@gmail.com> - 6.0.1-1
+* Wed Nov 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-1
+- Update to 6.0.3
+
+* Mon Sep 22 2014 Sandro Mani <manisandro@gmail.com> - 6.0.1-1
 - Update to 6.0.1
 
-* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-8
+* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Fri Aug 08 2014 Sandro Mani <manisandro@gmail.com> - 6.0.0-8
+- Rework specfile
 
 * Sat Jul 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.0-7
 - Fix under-linked libraries (#1098680)
