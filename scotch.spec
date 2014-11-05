@@ -1,13 +1,19 @@
 %global openmpidir %{_builddir}/ptscotch-openmpi-%{version}-%{release}
 %global mpichdir %{_builddir}/ptscotch-mpich-%{version}-%{release}
 
+# Shared library versioning:
+# Increment if interface is changed in an incompatible way
+%global so_maj 0
+# Increment if interface is extended
+%global so_min 1
+
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.1
+Version:       6.0.3
 Release:       1%{?dist}
 
 License:       CeCILL-C
-URL:           http://www.labri.fr/perso/pelegrin/scotch/
+URL:           https://gforge.inria.fr/projects/scotch/
 Source0:       https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
@@ -100,18 +106,18 @@ cp -a . %{mpichdir}
 
 %build
 pushd src/
-make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}"
+make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
 %{_mpich_load}
 pushd %{mpichdir}/src/
-make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}"
+make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}"
+make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -127,7 +133,7 @@ ln -s parser_ly.h libscotch/y.tab.h \
 pushd %{buildroot}${MPI_LIB}; \
 for lib in *.so; do \
     chmod 755 $lib \
-    mv $lib $lib.0.0 && ln -s $lib.0.0 $lib && ln -s $lib.0.0 $lib.0 \
+    mv $lib $lib.%{so_maj}.%{so_min} && ln -s $lib.%{so_maj}.%{so_min} $lib && ln -s $lib.%{so_maj}.%{so_min} $lib.%{so_maj} \
 done \
 popd \
 \
@@ -229,6 +235,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Wed Nov 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-1
+- Update to 6.0.3
+
 * Mon Sep 22 2014 Sandro Mani <manisandro@gmail.com> - 6.0.1-1
 - Update to 6.0.1
 

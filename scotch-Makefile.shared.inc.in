@@ -13,7 +13,7 @@ override CFLAGS  += -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_FILE_COMPRESS_BZ2 -DCOMMO
                     -Drestrict=__restrict -DIDXSIZE64
 CLIBFLAGS         = -shared -fPIC
 override LDFLAGS += -lz -lbz2 -llzmadec -lm -lrt -lpthread
-ARFLAGS           = -shared -Wl,-soname=$@.0 $(LDFLAGS) -o
+ARFLAGS           = -shared -Wl,-soname=$@.$(SOMAJ) $(LDFLAGS) -o
 CP                = cp -av
 LEX               = flex
 LN                = ln
