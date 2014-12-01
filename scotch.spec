@@ -10,18 +10,24 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.3
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
 Source0:       https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
+# Makefile fixes for building esmumps
+Patch0:        scotch_esmumps.patch
+
 BuildRequires: flex
 BuildRequires: bison
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
-BuildRequires: lzma-devel
+%if 0%{?fedora}
+BuildRequires:  lzma-devel
+%endif
+
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -92,6 +98,7 @@ This package contains development libraries for PT-Scotch, compiled against open
 
 %prep
 %setup -q -n scotch_%{version}
+%patch0 -p1
 
 cp -a %{SOURCE1} src/Makefile.inc
 
@@ -100,24 +107,29 @@ for file in doc/CeCILL-C_V1-en.txt doc/CeCILL-C_V1-fr.txt; do
     iconv -f iso8859-1 -t utf-8 $file > $file.conv && mv -f $file.conv $file
 done
 
+# No lzma-devel in el
+%if 0%{?rhel}
+sed -i -e s/-llzmadec// -e s/-DCOMMON_FILE_COMPRESS_LZMA// src/Makefile.inc
+%endif
+
 cp -a . %{openmpidir}
 cp -a . %{mpichdir}
 
 
 %build
 pushd src/
-make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
 %{_mpich_load}
 pushd %{mpichdir}/src/
-make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-make %{?_smp_mflags} ptscotch  CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -203,31 +215,40 @@ popd
 %doc doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
 %{_libdir}/libscotch*.so.*
+%{_libdir}/libesmumps*.so.*
 %{_mandir}/man1/*
 
 %files devel
 %{_libdir}/libscotch*.so
+%{_libdir}/libesmumps*.so
 %{_includedir}/*scotch*.h
+%{_includedir}/*esmumps*.h
 
 %files -n ptscotch-mpich
 %doc doc/CeCILL-C_V1-en.txt
-%{_libdir}/mpich/lib/lib*.so.*
+%{_libdir}/mpich/lib/lib*scotch*.so.*
+%{_libdir}/mpich/lib/lib*esmumps*.so.*
 %{_libdir}/mpich/bin/*
 %{_mandir}/mpich/*
 
 %files -n ptscotch-mpich-devel
 %{_includedir}/mpich*/*scotch*.h
-%{_libdir}/mpich/lib/lib*.so
+%{_includedir}/mpich*/*esmumps*.h
+%{_libdir}/mpich/lib/lib*scotch*.so
+%{_libdir}/mpich/lib/lib*esmumps*.so
 
 %files -n ptscotch-openmpi
 %doc doc/CeCILL-C_V1-en.txt
-%{_libdir}/openmpi/lib/lib*.so.*
+%{_libdir}/openmpi/lib/lib*scotch*.so.*
+%{_libdir}/openmpi/lib/lib*esmumps*.so.*
 %{_libdir}/openmpi/bin/*
 %{_mandir}/openmpi*/*
 
 %files -n ptscotch-openmpi-devel
 %{_includedir}/openmpi*/*scotch*.h
-%{_libdir}/openmpi/lib/lib*.so
+%{_includedir}/openmpi*/*esmumps*.h
+%{_libdir}/openmpi/lib/lib*scotch*.so
+%{_libdir}/openmpi/lib/lib*esmumps*.so
 
 %files doc
 %doc doc/CeCILL-C_V1-en.txt
@@ -235,6 +256,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Mon Dec 01 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-2
+- Build esmumps
+
 * Wed Nov 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-1
 - Update to 6.0.3
 
