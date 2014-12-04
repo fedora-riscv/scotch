@@ -16,7 +16,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.3
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -58,8 +58,8 @@ Contains documentations and example for scotch and ptscotch
 %if %{build_mpich}
 %package -n ptscotch-mpich
 Summary:       PT-Scotch libraries compiled against mpich
-BuildRequires: mpich2-devel
-Requires:      mpich2
+BuildRequires: mpich-devel
+Requires:      mpich
 
 %description -n ptscotch-mpich
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -270,6 +270,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Thu Dec 04 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-3
+- mpich2 -> mpich
+
 * Mon Dec 01 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-2
 - RHEL6/7 support
 - Build esmumps
