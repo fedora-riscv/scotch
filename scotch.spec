@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.3
-Release:       2%{?dist}
+Release:       4%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -212,7 +212,7 @@ popd
 
 
 %files
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
 %{_libdir}/libscotch*.so.*
 %{_libdir}/libesmumps*.so.*
@@ -225,7 +225,7 @@ popd
 %{_includedir}/*esmumps*.h
 
 %files -n ptscotch-mpich
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %{_libdir}/mpich/lib/lib*scotch*.so.*
 %{_libdir}/mpich/lib/lib*esmumps*.so.*
 %{_libdir}/mpich/bin/*
@@ -238,7 +238,7 @@ popd
 %{_libdir}/mpich/lib/lib*esmumps*.so
 
 %files -n ptscotch-openmpi
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %{_libdir}/openmpi/lib/lib*scotch*.so.*
 %{_libdir}/openmpi/lib/lib*esmumps*.so.*
 %{_libdir}/openmpi/bin/*
@@ -251,11 +251,14 @@ popd
 %{_libdir}/openmpi/lib/lib*esmumps*.so
 
 %files doc
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %doc doc/*.pdf
 %doc doc/scotch_example.f
 
 %changelog
+* Thu Mar 12 2015 Sandro Mani <manisandro@gmail.com> - 6.0.3-4
+- Rebuild (mpich)
+
 * Mon Dec 01 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-2
 - Build esmumps
 
