@@ -5,12 +5,12 @@
 # Increment if interface is changed in an incompatible way
 %global so_maj 0
 # Increment if interface is extended
-%global so_min 1
+%global so_min 2
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.3
-Release:       4%{?dist}
+Version:       6.0.4
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -256,6 +256,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Sat Mar 14 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-1
+- Update to 6.0.4
+
 * Thu Mar 12 2015 Sandro Mani <manisandro@gmail.com> - 6.0.3-4
 - Rebuild (mpich)
 
