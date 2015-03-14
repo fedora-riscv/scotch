@@ -229,7 +229,7 @@ popd
 
 
 %files
-%license doc/CeCILL-C_V1-en.txt
+%doc doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
 %{_libdir}/libscotch*.so.*
 %{_libdir}/libesmumps*.so.*
@@ -270,7 +270,7 @@ popd
 %{_libdir}/openmpi/lib/lib*esmumps*.so
 
 %files doc
-%license doc/CeCILL-C_V1-en.txt
+%doc doc/CeCILL-C_V1-en.txt
 %doc doc/*.pdf
 %doc doc/scotch_example.f
 
