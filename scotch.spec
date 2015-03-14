@@ -11,12 +11,12 @@
 # Increment if interface is changed in an incompatible way
 %global so_maj 0
 # Increment if interface is extended
-%global so_min 1
+%global so_min 2
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.3
-Release:       3%{?dist}
+Version:       6.0.4
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -30,6 +30,9 @@ BuildRequires: flex
 BuildRequires: bison
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
+%if 0%{?fedora}
+BuildRequires:  lzma-devel
+%endif
 
 
 %description
@@ -112,7 +115,9 @@ for file in doc/CeCILL-C_V1-en.txt doc/CeCILL-C_V1-fr.txt; do
 done
 
 # No lzma-devel in el
+%if 0%{?rhel}
 sed -i -e s/-llzmadec// -e s/-DCOMMON_FILE_COMPRESS_LZMA// src/Makefile.inc
+%endif
 
 cp -a . %{openmpidir}
 cp -a . %{mpichdir}
@@ -224,7 +229,7 @@ popd
 
 
 %files
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
 %{_libdir}/libscotch*.so.*
 %{_libdir}/libesmumps*.so.*
@@ -265,16 +270,24 @@ popd
 %{_libdir}/openmpi/lib/lib*esmumps*.so
 
 %files doc
-%doc doc/CeCILL-C_V1-en.txt
+%license doc/CeCILL-C_V1-en.txt
 %doc doc/*.pdf
 %doc doc/scotch_example.f
 
 %changelog
+* Sat Mar 14 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-1
+- Update to 6.0.4
+
+* Thu Mar 12 2015 Sandro Mani <manisandro@gmail.com> - 6.0.3-4
+- Rebuild (mpich)
+
 * Thu Dec 04 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-3
 - mpich2 -> mpich
 
 * Mon Dec 01 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-2
 - RHEL6/7 support
+
+* Mon Dec 01 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-2
 - Build esmumps
 
 * Wed Nov 05 2014 Sandro Mani <manisandro@gmail.com> - 6.0.3-1
