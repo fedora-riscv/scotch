@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       3%{?dist}
+Release:       4%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -55,7 +55,6 @@ Contains documentations and example for scotch and ptscotch
 %package -n ptscotch-mpich
 Summary:       PT-Scotch libraries compiled against mpich
 BuildRequires: mpich-devel
-Requires:      mpich
 
 %description -n ptscotch-mpich
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -78,7 +77,6 @@ mpich.
 %package -n ptscotch-openmpi
 Summary:       PT-Scotch libraries compiled against openmpi
 BuildRequires: openmpi-devel
-Requires:      openmpi
 
 %description -n ptscotch-openmpi
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -256,6 +254,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Sun Jul 26 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-4
+- Rebuild for RPM MPI Requires Provides Change
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
