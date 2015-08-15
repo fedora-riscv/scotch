@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       4%{?dist}
+Release:       5%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -254,6 +254,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Sat Aug 15 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 6.0.4-5
+- Rebuild for MPI provides
+
 * Sun Jul 26 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-4
 - Rebuild for RPM MPI Requires Provides Change
 
