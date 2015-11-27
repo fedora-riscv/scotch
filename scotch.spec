@@ -230,7 +230,7 @@ popd
 %{_libdir}/mpich/lib/lib*scotch*.so.*
 %{_libdir}/mpich/lib/lib*esmumps*.so.*
 %{_libdir}/mpich/bin/*
-%{_mandir}/mpich/*
+%{_mandir}/mpich*/*
 
 %files -n ptscotch-mpich-devel
 %{_includedir}/mpich*/*scotch*.h
