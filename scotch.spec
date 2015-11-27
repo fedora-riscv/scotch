@@ -16,7 +16,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       1%{?dist}
+Release:       7%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -62,7 +62,6 @@ Contains documentations and example for scotch and ptscotch
 %package -n ptscotch-mpich
 Summary:       PT-Scotch libraries compiled against mpich
 BuildRequires: mpich-devel
-Requires:      mpich
 
 %description -n ptscotch-mpich
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -85,7 +84,6 @@ mpich.
 %package -n ptscotch-openmpi
 Summary:       PT-Scotch libraries compiled against openmpi
 BuildRequires: openmpi-devel
-Requires:      openmpi
 
 %description -n ptscotch-openmpi
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -125,7 +123,7 @@ cp -a . %{mpichdir}
 
 %build
 pushd src/
-make %{?_smp_mflags} scotch esmumps CFLAGS="%{optflags}" LDFLAGS="$RPM_LD_FLAGS" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
 ###############################################################################
@@ -133,7 +131,7 @@ popd
 %if %{build_mpich}
 %{_mpich_load}
 pushd %{mpichdir}/src/
-make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="$RPM_LD_FLAGS" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 %endif
@@ -142,7 +140,7 @@ popd
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="$RPM_LD_FLAGS" SOMAJ="%{so_maj}"
+make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -198,6 +196,7 @@ popd
 %{_mpich_load}
 pushd %{mpichdir}/src
 %doinstall
+install -m644 libscotchmetis/parmetis.h %{buildroot}${MPI_INCLUDE}
 popd
 %{_mpich_unload}
 %endif
@@ -207,6 +206,7 @@ popd
 %{_openmpi_load}
 pushd %{openmpidir}/src
 %doinstall
+install -m644 libscotchmetis/parmetis.h %{buildroot}${MPI_INCLUDE}
 popd
 %{_openmpi_unload}
 
@@ -228,6 +228,7 @@ popd
 %postun -n ptscotch-openmpi -p /sbin/ldconfig
 
 
+%{!?_licensedir:%global license %%doc}
 %files
 %doc doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
@@ -252,6 +253,7 @@ popd
 %files -n ptscotch-mpich-devel
 %{_includedir}/mpich*/*scotch*.h
 %{_includedir}/mpich*/*esmumps*.h
+%{_includedir}/mpich*/parmetis.h
 %{_libdir}/mpich/lib/lib*scotch*.so
 %{_libdir}/mpich/lib/lib*esmumps*.so
 %endif
@@ -266,6 +268,7 @@ popd
 %files -n ptscotch-openmpi-devel
 %{_includedir}/openmpi*/*scotch*.h
 %{_includedir}/openmpi*/*esmumps*.h
+%{_includedir}/openmpi*/parmetis.h
 %{_libdir}/openmpi/lib/lib*scotch*.so
 %{_libdir}/openmpi/lib/lib*esmumps*.so
 
@@ -275,6 +278,25 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Thu Nov 26 2015 Dave Love <loveshack@fedoraproject.org> - 6.0.4-7
+- Install parmetis.h
+- Conditionalize %%license and %%__global_ldflags
+
+* Tue Sep 15 2015 Orion Poplawski <orion@cora.nwra.com> - 6.0.4-6
+- Rebuild for openmpi 1.10.0
+
+* Sat Aug 15 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 6.0.4-5
+- Rebuild for MPI provides
+
+* Sun Jul 26 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-4
+- Rebuild for RPM MPI Requires Provides Change
+
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sun May  3 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 6.0.4-2
+- Rebuild for changed mpich
+
 * Sat Mar 14 2015 Sandro Mani <manisandro@gmail.com> - 6.0.4-1
 - Update to 6.0.4
 
