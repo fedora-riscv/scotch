@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       8%{?dist}
+Release:       9%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -74,6 +74,13 @@ Obsoletes:     ptscotch-mpich-static < 6.0.0-8
 This package contains development libraries for PT-Scotch, compiled against
 mpich.
 
+%package -n ptscotch-mpich-devel-parmetis
+Summary:       Parmetis compatibility header for scotch
+Requires:      pt%{name}-mpich-devel%{?_isa} = %{version}-%{release}
+
+%description -n ptscotch-mpich-devel-parmetis
+This package contains the parmetis compatibility header for scotch.
+
 
 ###############################################################################
 
@@ -94,6 +101,14 @@ Obsoletes:     ptscotch-openmpi-static < 6.0.0-8
 
 %description -n ptscotch-openmpi-devel
 This package contains development libraries for PT-Scotch, compiled against openmpi.
+
+
+%package -n ptscotch-openmpi-devel-parmetis
+Summary:       Parmetis compatibility header for scotch
+Requires:      pt%{name}-openmpi-devel%{?_isa} = %{version}-%{release}
+
+%description -n ptscotch-openmpi-devel-parmetis
+This package contains the parmetis compatibility header for scotch.
 
 ###############################################################################
 
@@ -238,9 +253,11 @@ popd
 %files -n ptscotch-mpich-devel
 %{_includedir}/mpich*/*scotch*.h
 %{_includedir}/mpich*/*esmumps*.h
-%{_includedir}/mpich*/parmetis.h
 %{_libdir}/mpich/lib/lib*scotch*.so
 %{_libdir}/mpich/lib/lib*esmumps*.so
+
+%files -n ptscotch-mpich-devel-parmetis
+%{_includedir}/mpich*/parmetis.h
 
 %files -n ptscotch-openmpi
 %license doc/CeCILL-C_V1-en.txt
@@ -252,9 +269,11 @@ popd
 %files -n ptscotch-openmpi-devel
 %{_includedir}/openmpi*/*scotch*.h
 %{_includedir}/openmpi*/*esmumps*.h
-%{_includedir}/openmpi*/parmetis.h
 %{_libdir}/openmpi/lib/lib*scotch*.so
 %{_libdir}/openmpi/lib/lib*esmumps*.so
+
+%files -n ptscotch-openmpi-devel-parmetis
+%{_includedir}/openmpi*/parmetis.h
 
 %files doc
 %license doc/CeCILL-C_V1-en.txt
@@ -262,6 +281,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Fri Jan 22 2016 Sandro Mani <manisandro@gmail.com> - 6.0.4-9
+- Install parmetis.h in separate package
+
 * Tue Dec 01 2015 Than Ngo <than@redhat.com> - 6.0.4-8
 - ExcludeArch: s390 s390x
 
