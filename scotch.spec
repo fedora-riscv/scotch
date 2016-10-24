@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       11%{?dist}
+Release:       12%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -27,10 +27,6 @@ BuildRequires: bzip2-devel
 %if 0%{?fedora}
 BuildRequires:  lzma-devel
 %endif
-
-# s390 is unlikely to have the hardware we want, and some of the -devel
-# packages we require aren't available there.
-ExcludeArch: s390 s390x
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -281,6 +277,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Mon Oct 24 2016 Dan Horák <dan[at]danny.cz> - 6.0.4-12
+- drop ExcludeArch
+
 * Fri Oct 21 2016 Orion Poplawski <orion@cora.nwra.com> - 6.0.4-11
 - Rebuild for openmpi 2.0
 
