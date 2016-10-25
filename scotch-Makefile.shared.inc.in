@@ -9,7 +9,7 @@ CCS               = gcc
 CCP               = mpicc
 CCD               = mpicc
 override CFLAGS  += -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_FILE_COMPRESS_BZ2 -DCOMMON_FILE_COMPRESS_LZMA \
-                    -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD \
+                    -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME \
                     -Drestrict=__restrict -DIDXSIZE64
 CLIBFLAGS         = -shared -fPIC
 override LDFLAGS += -lz -lbz2 -llzmadec -lm -lrt -lpthread

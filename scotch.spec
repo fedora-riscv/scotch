@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.4
-Release:       12%{?dist}
+Release:       13%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -130,18 +130,18 @@ cp -a . %{mpichdir}
 
 %build
 pushd src/
-make %{?_smp_mflags} scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+%make_build scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
 %{_mpich_load}
 pushd %{mpichdir}/src/
-make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+%make_build ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-make %{?_smp_mflags} ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+%make_build ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -277,6 +277,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Thu Oct 27 2016 Sandro Mani <manisandro@gmail.com> - 6.0.4-13
+- Drop -DSCOTCH_PTHREAD (#1386707)
+
 * Mon Oct 24 2016 Dan Horák <dan[at]danny.cz> - 6.0.4-12
 - drop ExcludeArch
 
