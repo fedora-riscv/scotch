@@ -14,7 +14,7 @@ Release:       16%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
-Source0:       https://gforge.inria.fr/frs/download.php/file/34078/%{name}_%{version}.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/34618/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
 # Makefile fixes for building esmumps
