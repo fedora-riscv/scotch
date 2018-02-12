@@ -9,8 +9,8 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.4
-Release:       17%{?dist}
+Version:       6.0.5
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -109,7 +109,8 @@ This package contains the parmetis compatibility header for scotch.
 ###############################################################################
 
 %prep
-%setup -q -n scotch_%{version}
+# Sigh, they forgot to update the version in the folder name
+%setup -q -n scotch_6.0.4
 %patch0 -p1
 
 cp -a %{SOURCE1} src/Makefile.inc
@@ -229,8 +230,8 @@ popd
 %files
 %license doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
-%{_libdir}/libscotch*.so.*
-%{_libdir}/libesmumps*.so.*
+%{_libdir}/libscotch*.so.0*
+%{_libdir}/libesmumps*.so.0*
 %{_mandir}/man1/*
 
 %files devel
@@ -241,8 +242,8 @@ popd
 
 %files -n ptscotch-mpich
 %license doc/CeCILL-C_V1-en.txt
-%{_libdir}/mpich/lib/lib*scotch*.so.*
-%{_libdir}/mpich/lib/lib*esmumps*.so.*
+%{_libdir}/mpich/lib/lib*scotch*.so.0*
+%{_libdir}/mpich/lib/lib*esmumps*.so.0*
 %{_libdir}/mpich/bin/*
 %{_mandir}/mpich*/*
 
@@ -257,8 +258,8 @@ popd
 
 %files -n ptscotch-openmpi
 %license doc/CeCILL-C_V1-en.txt
-%{_libdir}/openmpi/lib/lib*scotch*.so.*
-%{_libdir}/openmpi/lib/lib*esmumps*.so.*
+%{_libdir}/openmpi/lib/lib*scotch*.so.0*
+%{_libdir}/openmpi/lib/lib*esmumps*.so.0*
 %{_libdir}/openmpi/bin/*
 %{_mandir}/openmpi*/*
 
@@ -277,6 +278,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Mon Feb 12 2018 Sandro Mani <manisandro@gmail.com> - 6.0.5-1
+- Update to 6.0.5
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.4-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
