@@ -12,7 +12,7 @@ override CFLAGS  += -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_FILE_COMPRESS_BZ2 -DCOMMO
                     -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME \
                     -Drestrict=__restrict -DIDXSIZE64
 CLIBFLAGS         = -shared -fPIC
-override LDFLAGS += -lz -lbz2 -llzmadec -lm -lrt -lpthread
+override LDFLAGS += -lz -lbz2 -llzma -llzmadec -lm -lrt -lpthread
 ARFLAGS           = -shared -Wl,-soname=$@.$(SOMAJ) $(LDFLAGS) -o
 CP                = cp -av
 LEX               = flex

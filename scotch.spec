@@ -3,21 +3,21 @@
 
 # Shared library versioning:
 # Increment if interface is changed in an incompatible way
-%global so_maj 0
+%global so_maj 1
 # Increment if interface is extended
-%global so_min 2
+%global so_min 3
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.5
-Release:       2%{?dist}
+Version:       6.0.6
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
-Source0:       https://gforge.inria.fr/frs/download.php/file/34618/%{name}_%{version}.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/37622/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
-# Makefile fixes for building esmumps
+# Makefile fix for installing esmumps
 Patch0:        scotch_esmumps.patch
 
 BuildRequires: flex
@@ -25,7 +25,8 @@ BuildRequires: bison
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
 %if 0%{?fedora}
-BuildRequires:  lzma-devel
+BuildRequires: xz-devel
+BuildRequires: lzma-devel
 %endif
 
 %description
@@ -109,9 +110,7 @@ This package contains the parmetis compatibility header for scotch.
 ###############################################################################
 
 %prep
-# Sigh, they forgot to update the version in the folder name
-%setup -q -n scotch_6.0.4
-%patch0 -p1
+%autosetup -p1 -n %{name}_%{version}
 
 cp -a %{SOURCE1} src/Makefile.inc
 
@@ -131,18 +130,18 @@ cp -a . %{mpichdir}
 
 %build
 pushd src/
-%make_build scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+make scotch esmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 
 %{_mpich_load}
 pushd %{mpichdir}/src/
-%make_build ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-%make_build ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -230,8 +229,8 @@ popd
 %files
 %license doc/CeCILL-C_V1-en.txt
 %{_bindir}/*
-%{_libdir}/libscotch*.so.0*
-%{_libdir}/libesmumps*.so.0*
+%{_libdir}/libscotch*.so.1*
+%{_libdir}/libesmumps*.so.1*
 %{_mandir}/man1/*
 
 %files devel
@@ -242,8 +241,8 @@ popd
 
 %files -n ptscotch-mpich
 %license doc/CeCILL-C_V1-en.txt
-%{_libdir}/mpich/lib/lib*scotch*.so.0*
-%{_libdir}/mpich/lib/lib*esmumps*.so.0*
+%{_libdir}/mpich/lib/lib*scotch*.so.1*
+%{_libdir}/mpich/lib/lib*esmumps*.so.1*
 %{_libdir}/mpich/bin/*
 %{_mandir}/mpich*/*
 
@@ -258,8 +257,8 @@ popd
 
 %files -n ptscotch-openmpi
 %license doc/CeCILL-C_V1-en.txt
-%{_libdir}/openmpi/lib/lib*scotch*.so.0*
-%{_libdir}/openmpi/lib/lib*esmumps*.so.0*
+%{_libdir}/openmpi/lib/lib*scotch*.so.1*
+%{_libdir}/openmpi/lib/lib*esmumps*.so.1*
 %{_libdir}/openmpi/bin/*
 %{_mandir}/openmpi*/*
 
@@ -278,6 +277,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Mon Jul 16 2018 Sandro Mani <manisandro@gmail.com> - 6.0.6-1
+- Update to 6.0.6
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
