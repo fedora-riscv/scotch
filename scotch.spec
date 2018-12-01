@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.6
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -24,10 +24,7 @@ BuildRequires: flex
 BuildRequires: bison
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
-%if 0%{?fedora}
 BuildRequires: xz-devel
-BuildRequires: lzma-devel
-%endif
 
 %description
 Scotch is a software package for graph and mesh/hypergraph partitioning and
@@ -118,11 +115,6 @@ cp -a %{SOURCE1} src/Makefile.inc
 for file in doc/CeCILL-C_V1-en.txt doc/CeCILL-C_V1-fr.txt; do
     iconv -f iso8859-1 -t utf-8 $file > $file.conv && mv -f $file.conv $file
 done
-
-# No lzma-devel in el
-%if 0%{?rhel}
-sed -i -e s/-llzmadec// -e s/-DCOMMON_FILE_COMPRESS_LZMA// src/Makefile.inc
-%endif
 
 cp -a . %{openmpidir}
 cp -a . %{mpichdir}
@@ -277,6 +269,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Sat Dec 1 2018 Orion Poplawski <orion@cnwra.com> - 6.0.6-2
+- Drop BR lzma, use xz for lzma support
+
 * Mon Jul 16 2018 Sandro Mani <manisandro@gmail.com> - 6.0.6-1
 - Update to 6.0.6
 
