@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.6
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -19,6 +19,8 @@ Source1:       scotch-Makefile.shared.inc.in
 
 # Makefile fix for installing esmumps
 Patch0:        scotch_esmumps.patch
+# Make shared libraries link properly with -Wl,--as-needed
+Patch1:        scotch-ldflags.patch
 
 BuildRequires: flex
 BuildRequires: bison
@@ -269,6 +271,9 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Sun Dec 16 2018 Orion Poplawski <orion@cnwra.com> - 6.0.6-3
+- Make shared libraries link properly with -Wl,--as-needed
+
 * Sat Dec 1 2018 Orion Poplawski <orion@cnwra.com> - 6.0.6-2
 - Drop BR lzma, use xz for lzma support
 

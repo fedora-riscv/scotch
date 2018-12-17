@@ -13,7 +13,8 @@ override CFLAGS  += -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_FILE_COMPRESS_BZ2 -DCOMMO
                     -Drestrict=__restrict -DIDXSIZE64
 CLIBFLAGS         = -shared -fPIC
 override LDFLAGS += -lz -lbz2 -llzma -lm -lrt -lpthread
-ARFLAGS           = -shared -Wl,-soname=$@.$(SOMAJ) $(LDFLAGS) -o
+# LDFLAGS added to AR rule in Makefiles to come after objects to work with -Wl,--as-needed
+ARFLAGS           = -shared -Wl,-soname=$@.$(SOMAJ) -o
 CP                = cp -av
 LEX               = flex
 LN                = ln
