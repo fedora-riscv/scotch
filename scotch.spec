@@ -206,17 +206,11 @@ popd
 ###############################################################################
 
 
-%post -p /sbin/ldconfig
+%ldconfig_scriptlets
 
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets -n ptscotch-mpich
 
-%post -n ptscotch-mpich -p /sbin/ldconfig
-
-%postun -n ptscotch-mpich -p /sbin/ldconfig
-
-%post -n ptscotch-openmpi -p /sbin/ldconfig
-
-%postun -n ptscotch-openmpi -p /sbin/ldconfig
+%ldconfig_scriptlets -n ptscotch-openmpi
 
 
 %{!?_licensedir:%global license %%doc}
