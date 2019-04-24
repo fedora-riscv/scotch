@@ -10,7 +10,7 @@
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       6.0.6
-Release:       5%{?dist}
+Release:       6%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -21,6 +21,8 @@ Source1:       scotch-Makefile.shared.inc.in
 Patch0:        scotch_esmumps.patch
 # Make shared libraries link properly with -Wl,--as-needed
 Patch1:        scotch-ldflags.patch
+# Fix undefined man page macros
+Patch2:        scotch-man.patch
 
 BuildRequires: flex
 BuildRequires: bison
@@ -36,7 +38,6 @@ ptscotch sub-packages.
 %package devel
 Summary:       Development libraries for scotch
 Requires:      %{name}%{?_isa} = %{version}-%{release}
-Obsoletes:     %{name}-static < 6.0.0-8
 
 %description devel
 This package contains development libraries for scotch.
@@ -64,7 +65,6 @@ compiled with mpich.
 %package -n ptscotch-mpich-devel
 Summary:       Development libraries for PT-Scotch (mpich)
 Requires:      pt%{name}-mpich%{?_isa} = %{version}-%{release}
-Obsoletes:     ptscotch-mpich-static < 6.0.0-8
 
 %description -n ptscotch-mpich-devel
 This package contains development libraries for PT-Scotch, compiled against
@@ -93,10 +93,10 @@ compiled with openmpi.
 %package -n ptscotch-openmpi-devel
 Summary:       Development libraries for PT-Scotch (openmpi)
 Requires:      pt%{name}-openmpi%{?_isa} = %{version}-%{release}
-Obsoletes:     ptscotch-openmpi-static < 6.0.0-8
 
 %description -n ptscotch-openmpi-devel
-This package contains development libraries for PT-Scotch, compiled against openmpi.
+This package contains development libraries for PT-Scotch, compiled against
+openmpi.
 
 
 %package -n ptscotch-openmpi-devel-parmetis
@@ -129,13 +129,13 @@ popd
 
 %{_mpich_load}
 pushd %{mpichdir}/src/
-make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags} -L%{_libdir}/mpich/lib -lmpi" SOMAJ="%{so_maj}"
 popd
 %{_mpich_unload}
 
 %{_openmpi_load}
 pushd %{openmpidir}/src/
-make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" SOMAJ="%{so_maj}"
+make ptscotch ptesmumps CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags} -L%{_libdir}/openmpi/lib -lmpi" SOMAJ="%{so_maj}"
 popd
 %{_openmpi_unload}
 
@@ -206,6 +206,10 @@ popd
 ###############################################################################
 
 
+%check
+LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
+
+
 %ldconfig_scriptlets
 
 %ldconfig_scriptlets -n ptscotch-mpich
@@ -265,6 +269,13 @@ popd
 %doc doc/scotch_example.f
 
 %changelog
+* Fri Apr 12 2019 Jerry James <loganjerry@gmail.com> - 6.0.6-6
+- Fix underlinked libraries (bz 1680315)
+- Fix too-long description line
+- Drop ancient obsoletes
+- Add check script
+- Fix undefined macros in man pages
+
 * Thu Feb 14 2019 Orion Poplawski <orion@nwra.com> - 6.0.6-5
 - Rebuild for openmpi 3.1.3
 
