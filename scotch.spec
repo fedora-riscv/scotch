@@ -9,8 +9,8 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.6
-Release:       6%{?dist}
+Version:       6.0.7
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
@@ -109,7 +109,8 @@ This package contains the parmetis compatibility header for scotch.
 ###############################################################################
 
 %prep
-%autosetup -p1 -n %{name}_%{version}
+# FIXME They forgot to update the version in the tarball root foldername...
+%autosetup -p1 -n %{name}_6.0.6
 
 cp -a %{SOURCE1} src/Makefile.inc
 
@@ -269,6 +270,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
 %doc doc/scotch_example.f
 
 %changelog
+* Mon May 20 2019 Sandro Mani <manisandro@gmail.com> - 6.0.7-1
+- Update to 6.0.7
+
 * Fri Apr 12 2019 Jerry James <loganjerry@gmail.com> - 6.0.6-6
 - Fix underlinked libraries (bz 1680315)
 - Fix too-long description line

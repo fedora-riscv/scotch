@@ -1,6 +1,6 @@
 diff -rupN scotch_6.0.6/src/Makefile scotch_6.0.6-new/src/Makefile
 --- scotch_6.0.6/src/Makefile	2018-07-14 17:24:49.000000000 +0200
-+++ scotch_6.0.6-new/src/Makefile	2018-07-16 15:43:50.833428459 +0200
++++ scotch_6.0.6-new/src/Makefile	2019-05-20 13:38:16.054735319 +0200
 @@ -122,6 +122,8 @@ install				:	required	$(bindir)	$(includ
  					-$(CP) -f ../include/*scotch*.h $(includedir)
  					-$(CP) -f ../lib/*esmumps*$(LIB) $(libdir)
