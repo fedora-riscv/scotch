@@ -9,12 +9,12 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.7
-Release:       2%{?dist}
+Version:       6.0.8
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
-Source0:       https://gforge.inria.fr/frs/download.php/file/37622/%{name}_%{version}.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/38114/%{name}_%{version}.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
 # Makefile fix for installing esmumps
@@ -109,8 +109,7 @@ This package contains the parmetis compatibility header for scotch.
 ###############################################################################
 
 %prep
-# FIXME They forgot to update the version in the tarball root foldername...
-%autosetup -p1 -n %{name}_6.0.6
+%autosetup -p1 -n %{name}_%{version}
 
 cp -a %{SOURCE1} src/Makefile.inc
 
@@ -270,6 +269,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
 %doc doc/scotch_example.f
 
 %changelog
+* Tue Aug 27 2019 Sandro Mani <manisandro@gmail.com> - 6.0.8-1
+- Update to 6.0.8
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
