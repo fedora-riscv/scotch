@@ -1,7 +1,7 @@
-diff -rupN scotch_6.0.6/src/Makefile scotch_6.0.6-new/src/Makefile
---- scotch_6.0.6/src/Makefile	2018-07-14 17:24:49.000000000 +0200
-+++ scotch_6.0.6-new/src/Makefile	2019-05-20 13:38:16.054735319 +0200
-@@ -122,6 +122,8 @@ install				:	required	$(bindir)	$(includ
+diff -rupN --no-dereference scotch_6.0.9/src/Makefile scotch_6.0.9-new/src/Makefile
+--- scotch_6.0.9/src/Makefile	2019-11-04 12:24:11.000000000 +0100
++++ scotch_6.0.9-new/src/Makefile	2019-11-05 15:04:03.268685710 +0100
+@@ -125,6 +125,8 @@ install				:	required	$(bindir)	$(includ
  					-$(CP) -f ../include/*scotch*.h $(includedir)
  					-$(CP) -f ../lib/*esmumps*$(LIB) $(libdir)
  					-$(CP) -f ../lib/*scotch*$(LIB) $(libdir)
@@ -9,4 +9,4 @@ diff -rupN scotch_6.0.6/src/Makefile scotch_6.0.6-new/src/Makefile
 +					-$(CP) -f ../lib/*esmumps*$(LIB) $(libdir)
  					-$(CP) -Rf ../man/* $(mandir)
  
- clean				:	required
+ installstub			:	required	$(includedir)
