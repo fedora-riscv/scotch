@@ -9,19 +9,17 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.0.10
+Version:       6.1.0
 Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
 # Note: this URL needs to be adjusted for every release, as the file ID changes every time
-Source0:       https://gforge.inria.fr/frs/download.php/file/38350/%{name}_6.0.10.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/38352/scotch_6.1.0.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
 # Make shared libraries link properly with -Wl,--as-needed
 Patch0:        scotch-ldflags.patch
-# Fix undefined man page macros
-Patch1:        scotch-man.patch
 
 BuildRequires: flex
 BuildRequires: bison
@@ -269,6 +267,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
 %doc doc/scotch_example.f
 
 %changelog
+* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.coM> - 6.1.0-1
+- Update to 6.1.0
+
 * Wed Sep 02 2020 Sandro Mani <manisandro@gmail.com> - 6.0.10-1
 - Update to 6.0.10
 
