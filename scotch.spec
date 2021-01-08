@@ -21,6 +21,7 @@ Source1:       scotch-Makefile.shared.inc.in
 # Make shared libraries link properly with -Wl,--as-needed
 Patch0:        scotch-ldflags.patch
 
+BuildRequires: make
 BuildRequires: flex
 BuildRequires: bison
 BuildRequires: zlib-devel
