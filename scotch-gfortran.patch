@@ -1,0 +1,12 @@
+diff -rupN scotch_6.1.1/src/check/Makefile scotch_6.1.1-new/src/check/Makefile
+--- scotch_6.1.1/src/check/Makefile	2021-06-23 00:09:27.000000000 +0200
++++ scotch_6.1.1-new/src/check/Makefile	2021-06-24 14:19:39.161110960 +0200
+@@ -68,7 +68,7 @@ include ../Makefile.inc
+ 				$(CC) $(CFLAGS) -I$(SCOTCHINCDIR) -L$(SCOTCHLIBDIR) $(<) -o $(@) $(SCOTCHLIBS) $(LDFLAGS)
+ 
+ %$(EXE)	:	%.f90
+-				$(FC) $(FFLAGS) -I$(SCOTCHINCDIR) -L$(SCOTCHLIBDIR) $(<) -o $(@) $(SCOTCHLIBS) $(LDFLAGS)
++				gfortran $(FFLAGS) -I$(SCOTCHINCDIR) -L$(SCOTCHLIBDIR) $(<) -o $(@) $(SCOTCHLIBS) $(LDFLAGS)
+ 
+ ##
+ ##  Project rules.

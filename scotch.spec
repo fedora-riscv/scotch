@@ -9,18 +9,22 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.1.0
-Release:       2%{?dist}
+Version:       6.1.1
+Release:       1%{?dist}
 
 License:       CeCILL-C
 URL:           https://gforge.inria.fr/projects/scotch/
 # Note: this URL needs to be adjusted for every release, as the file ID changes every time
-Source0:       https://gforge.inria.fr/frs/download.php/file/38352/scotch_6.1.0.tar.gz
+Source0:       https://gforge.inria.fr/frs/download.php/file/38443/scotch_6.1.1.tar.gz
 Source1:       scotch-Makefile.shared.inc.in
 
 # Make shared libraries link properly with -Wl,--as-needed
 Patch0:        scotch-ldflags.patch
+# Ensure gfortran is used as fortran compiler
+Patch1:        scotch-gfortran.patch
 
+BuildRequires: gcc
+BuildRequires: gcc-gfortran
 BuildRequires: make
 BuildRequires: flex
 BuildRequires: bison
@@ -268,6 +272,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
 %doc doc/scotch_example.f
 
 %changelog
+* Thu Jun 24 2021 Sandro Mani <manisandro@gmail.com> - 6.1.1-1
+- Update to 6.1.1
+
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 

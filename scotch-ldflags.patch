@@ -1,8 +1,8 @@
-diff -rupN --no-dereference scotch_6.1.0/src/esmumps/Makefile scotch_6.1.0-new/src/esmumps/Makefile
---- scotch_6.1.0/src/esmumps/Makefile	2020-09-03 14:04:40.000000000 +0200
-+++ scotch_6.1.0-new/src/esmumps/Makefile	2020-09-08 11:33:53.230226763 +0200
-@@ -184,7 +184,7 @@ esmumps_strats$(OBJ)		:	esmumps_strats.c
- 					esmumps.h
+diff -rupN --no-dereference scotch_6.1.1/src/esmumps/Makefile scotch_6.1.1-new/src/esmumps/Makefile
+--- scotch_6.1.1/src/esmumps/Makefile	2021-06-21 00:22:12.000000000 +0200
++++ scotch_6.1.1-new/src/esmumps/Makefile	2021-06-24 12:35:37.191679393 +0200
+@@ -196,7 +196,7 @@ symbol_fax_graph$(OBJ)		:	symbol_fax_gra
+ 					fax.h
  
  libesmumps$(LIB)		:	$(LIBESMUMPSDEPS)
 -					$(AR) $(ARFLAGS) $(@) $(?)
@@ -10,9 +10,9 @@ diff -rupN --no-dereference scotch_6.1.0/src/esmumps/Makefile scotch_6.1.0-new/s
  					-$(RANLIB) $(@)
  
  main_esmumps$(EXE)		:	main_esmumps.c				\
-diff -rupN --no-dereference scotch_6.1.0/src/libscotch/Makefile scotch_6.1.0-new/src/libscotch/Makefile
---- scotch_6.1.0/src/libscotch/Makefile	2020-09-03 13:48:31.000000000 +0200
-+++ scotch_6.1.0-new/src/libscotch/Makefile	2020-09-08 11:33:53.231226835 +0200
+diff -rupN --no-dereference scotch_6.1.1/src/libscotch/Makefile scotch_6.1.1-new/src/libscotch/Makefile
+--- scotch_6.1.1/src/libscotch/Makefile	2021-06-22 13:55:57.000000000 +0200
++++ scotch_6.1.1-new/src/libscotch/Makefile	2021-06-24 12:35:37.191679393 +0200
 @@ -3121,26 +3121,26 @@ ptscotchf.h			:	ptdummysizes$(EXE)			\
  					library_pt_f.h
  					./ptdummysizes$(EXE) "-s$(SCOTCH_NAME_SUFFIX)" library_pt_f.h ptscotchf.h
@@ -48,10 +48,10 @@ diff -rupN --no-dereference scotch_6.1.0/src/libscotch/Makefile scotch_6.1.0-new
 -					$(AR) $(ARFLAGS) $(@) $(?)
 +					$(AR) $(ARFLAGS) $(@) $(?) $(LDFLAGS)
  					-$(RANLIB) $(@)
-diff -rupN --no-dereference scotch_6.1.0/src/libscotchmetis/Makefile scotch_6.1.0-new/src/libscotchmetis/Makefile
---- scotch_6.1.0/src/libscotchmetis/Makefile	2020-09-03 14:04:30.000000000 +0200
-+++ scotch_6.1.0-new/src/libscotchmetis/Makefile	2020-09-08 11:33:53.231226835 +0200
-@@ -142,12 +142,12 @@ libptscotchparmetis$(LIB)	:	parmetis_dgr
+diff -rupN --no-dereference scotch_6.1.1/src/libscotchmetis/Makefile scotch_6.1.1-new/src/libscotchmetis/Makefile
+--- scotch_6.1.1/src/libscotchmetis/Makefile	2021-06-23 00:09:27.000000000 +0200
++++ scotch_6.1.1-new/src/libscotchmetis/Makefile	2021-06-24 12:35:37.191679393 +0200
+@@ -187,7 +187,7 @@ libptscotchparmetis$(LIB)	:	parmetis_dgr
  					parmetis_dgraph_order_f$(OBJ)		\
  					parmetis_dgraph_part$(OBJ)		\
  					parmetis_dgraph_part_f$(OBJ)
@@ -59,10 +59,11 @@ diff -rupN --no-dereference scotch_6.1.0/src/libscotchmetis/Makefile scotch_6.1.
 +					$(AR) $(ARFLAGS) $(@) $(^) $(LDFLAGS) -L ../libscotch -lptscotch
  					-$(RANLIB) $(@)
  
- libscotchmetis$(LIB)		:	metis_graph_order$(OBJ)			\
- 					metis_graph_order_f$(OBJ)		\
- 					metis_graph_part$(OBJ)			\
- 					metis_graph_part_f$(OBJ)
+ libscotchmetis$(LIB)		:	metis_graph_dual$(OBJ)			\
+@@ -200,5 +200,5 @@ libscotchmetis$(LIB)		:	metis_graph_dual
+ 					metis_graph_part_dual_f$(OBJ)		\
+ 					metis_options$(OBJ)			\
+ 					metis_options_f$(OBJ)
 -					$(AR) $(ARFLAGS) $(@) $(^)
 +					$(AR) $(ARFLAGS) $(@) $(^) $(LDFLAGS) -L ../libscotch -lscotch
  					-$(RANLIB) $(@)
