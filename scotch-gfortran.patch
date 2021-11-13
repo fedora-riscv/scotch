@@ -1,6 +1,6 @@
-diff -rupN scotch_6.1.1/src/check/Makefile scotch_6.1.1-new/src/check/Makefile
---- scotch_6.1.1/src/check/Makefile	2021-06-23 00:09:27.000000000 +0200
-+++ scotch_6.1.1-new/src/check/Makefile	2021-06-24 14:19:39.161110960 +0200
+diff -rupN --no-dereference scotch-v6.1.2/src/check/Makefile scotch-v6.1.2-new/src/check/Makefile
+--- scotch-v6.1.2/src/check/Makefile	2021-11-13 11:07:54.000000000 +0100
++++ scotch-v6.1.2-new/src/check/Makefile	2021-11-13 21:44:21.161507721 +0100
 @@ -68,7 +68,7 @@ include ../Makefile.inc
  				$(CC) $(CFLAGS) -I$(SCOTCHINCDIR) -L$(SCOTCHLIBDIR) $(<) -o $(@) $(SCOTCHLIBS) $(LDFLAGS)
  

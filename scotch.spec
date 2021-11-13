@@ -9,13 +9,12 @@
 
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
-Version:       6.1.1
-Release:       2%{?dist}
+Version:       6.1.2
+Release:       1%{?dist}
 
 License:       CeCILL-C
-URL:           https://gforge.inria.fr/projects/scotch/
-# Note: this URL needs to be adjusted for every release, as the file ID changes every time
-Source0:       https://gforge.inria.fr/frs/download.php/file/38443/scotch_6.1.1.tar.gz
+URL:           https://gitlab.inria.fr/scotch/scotch
+Source0:       https://gitlab.inria.fr/scotch/scotch/-/archive/v%{version}/scotch-v%{version}.tar.bz2
 Source1:       scotch-Makefile.shared.inc.in
 
 # Make shared libraries link properly with -Wl,--as-needed
@@ -111,8 +110,7 @@ This package contains the parmetis compatibility header for scotch.
 ###############################################################################
 
 %prep
-# NOTE: If the archive prefix folder does not match %%{name}_%%{version}, then the file ID in the Source URL is likely wrong!
-%autosetup -p1 -n %{name}_%{version}
+%autosetup -p1 -n %{name}-v%{version}
 
 cp -a %{SOURCE1} src/Makefile.inc
 
@@ -272,6 +270,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make -C src/check
 %doc doc/scotch_example.f
 
 %changelog
+* Sat Nov 13 2021 Sandro Mani <manisandro@gmail.com> - 6.1.2-1
+- Update to 6.1.2
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 

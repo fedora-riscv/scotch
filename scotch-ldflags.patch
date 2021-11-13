@@ -1,6 +1,6 @@
-diff -rupN --no-dereference scotch_6.1.1/src/esmumps/Makefile scotch_6.1.1-new/src/esmumps/Makefile
---- scotch_6.1.1/src/esmumps/Makefile	2021-06-21 00:22:12.000000000 +0200
-+++ scotch_6.1.1-new/src/esmumps/Makefile	2021-06-24 12:35:37.191679393 +0200
+diff -rupN --no-dereference scotch-v6.1.2/src/esmumps/Makefile scotch-v6.1.2-new/src/esmumps/Makefile
+--- scotch-v6.1.2/src/esmumps/Makefile	2021-11-13 11:07:54.000000000 +0100
++++ scotch-v6.1.2-new/src/esmumps/Makefile	2021-11-13 21:44:21.098507670 +0100
 @@ -196,7 +196,7 @@ symbol_fax_graph$(OBJ)		:	symbol_fax_gra
  					fax.h
  
@@ -10,10 +10,10 @@ diff -rupN --no-dereference scotch_6.1.1/src/esmumps/Makefile scotch_6.1.1-new/s
  					-$(RANLIB) $(@)
  
  main_esmumps$(EXE)		:	main_esmumps.c				\
-diff -rupN --no-dereference scotch_6.1.1/src/libscotch/Makefile scotch_6.1.1-new/src/libscotch/Makefile
---- scotch_6.1.1/src/libscotch/Makefile	2021-06-22 13:55:57.000000000 +0200
-+++ scotch_6.1.1-new/src/libscotch/Makefile	2021-06-24 12:35:37.191679393 +0200
-@@ -3121,26 +3121,26 @@ ptscotchf.h			:	ptdummysizes$(EXE)			\
+diff -rupN --no-dereference scotch-v6.1.2/src/libscotch/Makefile scotch-v6.1.2-new/src/libscotch/Makefile
+--- scotch-v6.1.2/src/libscotch/Makefile	2021-11-13 11:07:54.000000000 +0100
++++ scotch-v6.1.2-new/src/libscotch/Makefile	2021-11-13 21:44:21.098507670 +0100
+@@ -3119,26 +3119,26 @@ ptscotchf.h			:	ptdummysizes$(EXE)			\
  					library_pt_f.h
  					./ptdummysizes$(EXE) "-s$(SCOTCH_NAME_SUFFIX)" library_pt_f.h ptscotchf.h
  
@@ -48,9 +48,9 @@ diff -rupN --no-dereference scotch_6.1.1/src/libscotch/Makefile scotch_6.1.1-new
 -					$(AR) $(ARFLAGS) $(@) $(?)
 +					$(AR) $(ARFLAGS) $(@) $(?) $(LDFLAGS)
  					-$(RANLIB) $(@)
-diff -rupN --no-dereference scotch_6.1.1/src/libscotchmetis/Makefile scotch_6.1.1-new/src/libscotchmetis/Makefile
---- scotch_6.1.1/src/libscotchmetis/Makefile	2021-06-23 00:09:27.000000000 +0200
-+++ scotch_6.1.1-new/src/libscotchmetis/Makefile	2021-06-24 12:35:37.191679393 +0200
+diff -rupN --no-dereference scotch-v6.1.2/src/libscotchmetis/Makefile scotch-v6.1.2-new/src/libscotchmetis/Makefile
+--- scotch-v6.1.2/src/libscotchmetis/Makefile	2021-11-13 11:07:54.000000000 +0100
++++ scotch-v6.1.2-new/src/libscotchmetis/Makefile	2021-11-13 21:44:21.099507671 +0100
 @@ -187,7 +187,7 @@ libptscotchparmetis$(LIB)	:	parmetis_dgr
  					parmetis_dgraph_order_f$(OBJ)		\
  					parmetis_dgraph_part$(OBJ)		\
