@@ -1,9 +1,12 @@
 %bcond_without metis
 
+# This flag prevents internal links
+%undefine _ld_as_needed
+
 Name:          scotch
 Summary:       Graph, mesh and hypergraph partitioning library
 Version:       7.0.3
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 License:       CeCILL-C
 URL:           https://gitlab.inria.fr/scotch/scotch
@@ -408,6 +411,9 @@ rm -rf %{buildroot}%{_prefix}/man/*
 
 
 %changelog
+* Thu Apr 13 2023 Antonio Trande <sagitter@fedoraproject.org> - 7.0.3-2
+- Undefine _ld_as_needed
+
 * Thu Apr 13 2023 Antonio Trande <sagitter@fedoraproject.org> - 7.0.3-1
 - Update to 7.0.3
 - Patch0 updated
